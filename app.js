@@ -441,8 +441,9 @@ function initEmotionTrigger() {
 let onboardingPage = 0;
 
 function initOnboarding() {
-  if (state.setupCompleted) {
+  if (state.setupCompleted || window.innerWidth >= 600) {
     document.getElementById('onboarding-overlay').classList.add('hidden');
+    return;
   }
 }
 
