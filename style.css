@@ -525,12 +525,14 @@ body {
   backdrop-filter: blur(4px);
   display: flex; align-items: center; justify-content: center;
   z-index: 1000; padding: 16px; opacity: 1; transition: opacity 0.3s;
+  overflow-y: auto;
 }
 .modal-overlay.hidden { opacity: 0; pointer-events: none; }
 .modal {
   background: var(--bg-card); border: 1px solid var(--border);
   border-radius: var(--radius); box-shadow: var(--shadow-md);
   padding: 32px 24px 24px; max-width: 400px; width: 100%;
+  max-height: calc(100vh - 64px); overflow-y: auto;
   text-align: center; position: relative;
 }
 .modal-page.hidden { display: none; }
