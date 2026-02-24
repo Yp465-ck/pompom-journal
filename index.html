@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>ポンポン式ジャーナリング</title>
+  <link rel="icon" href="icon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="header">
+    <h1>ポンポン式ジャーナリング <img src="icon.png" alt="" class="header-icon"></h1>
+    <p class="header-sub">感情の吐き出しを人生の資産に変える</p>
+  </header>
+
+  <!-- ===== Dashboard ===== -->
+  <section class="dashboard" id="dashboard">
+    <div class="date-display" id="date-display"></div>
+    <div class="daily-card" id="daily-card"></div>
+    <div class="periodic-section" id="periodic-section"></div>
+    <button class="emotion-trigger" id="emotion-trigger">
+      <span class="emotion-icon">⚡</span>
+      感情が大きく動いた？ → 壁打ちする
+    </button>
+  </section>
+
+  <!-- ===== Stats Row ===== -->
+  <section class="stats-row" id="stats-row">
+    <div class="stat-item">
+      <span class="stat-icon">🔥</span>
+      <span class="stat-value" id="stat-streak">0</span>
+      <span class="stat-label">日継続</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-icon">📓</span>
+      <span class="stat-value" id="stat-monthly">0</span>
+      <span class="stat-label">今月</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-icon">💡</span>
+      <span class="stat-value" id="stat-beliefs">0</span>
+      <span class="stat-label">信念</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-icon">🔄</span>
+      <span class="stat-value" id="stat-weekly">0</span>
+      <span class="stat-label">週次</span>
+    </div>
+  </section>
+
+  <!-- ===== Steps ===== -->
+  <section class="steps">
+
+    <!-- Step 1 -->
+    <div class="accordion" id="step1">
+      <button class="accordion-header" data-target="step1-content">
+        <div class="accordion-title">
+          <span class="step-badge">Step 1</span>
+          <span class="step-name">毎日の吐き出し</span>
+          <span class="step-time">5分</span>
+        </div>
+        <span class="accordion-arrow">▾</span>
+      </button>
+      <div class="accordion-content" id="step1-content">
+        <div class="step-flow">
+          <div class="flow-step">
+            <span class="flow-num">1</span>
+            <div class="flow-text">
+              <strong>ChatGPT / Claude を開いて音声入力で喋る</strong>
+              <p>今日感じたこと、考えたことをそのまま喋るだけ。構成も文法も気にしない。</p>
+              <div class="link-row">
+                <a href="https://chatgpt.com/g/g-p-699de305b37c8191aa8b27ebae2ef3dc-siyanarinkuyong/project" target="_blank" class="tool-link chatgpt">💬 ChatGPT</a>
+                <a href="https://claude.ai" target="_blank" class="tool-link claude">🤖 Claude</a>
+                <a href="https://gemini.google.com" target="_blank" class="tool-link gemini">✨ Gemini</a>
+              </div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-num">2</span>
+            <div class="flow-text">
+              <strong>AIに整形してもらう</strong>
+              <p>喋り終わったら、このプロンプトをコピーしてAIに送る:</p>
+              <div class="prompt-block">
+                <div class="prompt-text" id="prompt-format">こちらの内容の誤字脱字を修正し、改良や体裁を整えて読みやすくしてください</div>
+                <button class="copy-btn" data-target="prompt-format">📋 コピー</button>
+              </div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-num">3</span>
+            <div class="flow-text">
+              <strong>整形されたテキストを Notion に保存</strong>
+              <p>ジャーナルDBの新規ページに貼り付けるだけ。</p>
+              <div class="link-row">
+                <a href="https://www.notion.so/yui0403/78c6e2fe3393445795a7604156695f3a?v=3113f8375e4a807ea930000c38a1b40b&source=copy_link" target="_blank" class="tool-link notion">📝 Notion</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="topic-section">
+          <h4>💡 何を喋ればいいか迷ったら</h4>
+          <p class="topic-hint">一番シンプルな入り方は「今日一番感情が動いたこと」から。</p>
+          <div class="topic-grid">
+            <div class="topic-card"><span class="topic-emoji">😤</span><span class="topic-label">感情</span><span class="topic-q">今日一番強く感じた感情は？</span></div>
+            <div class="topic-card"><span class="topic-emoji">📌</span><span class="topic-label">出来事</span><span class="topic-q">一番印象に残った出来事は？</span></div>
+            <div class="topic-card"><span class="topic-emoji">👤</span><span class="topic-label">人</span><span class="topic-q">今日、誰のことを一番考えた？</span></div>
+            <div class="topic-card"><span class="topic-emoji">🤔</span><span class="topic-label">違和感</span><span class="topic-q">「なんか引っかかるな」と思ったことは？</span></div>
+            <div class="topic-card highlight"><span class="topic-emoji">🔥</span><span class="topic-label">怒り</span><span class="topic-q">今日、イラッとしたことは？</span></div>
+            <div class="topic-card"><span class="topic-emoji">💫</span><span class="topic-label">欲望</span><span class="topic-q">一番やりたいこと・欲しいものは？</span></div>
+          </div>
+          <p class="topic-note">特に「怒り」と「違和感」は宝の山。自分の価値軸が一番正直に出る感情。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 1.5 -->
+    <div class="accordion" id="step15">
+      <button class="accordion-header" data-target="step15-content">
+        <div class="accordion-title">
+          <span class="step-badge special">Step 1.5</span>
+          <span class="step-name">感情の壁打ちサイクル</span>
+          <span class="step-time">随時</span>
+        </div>
+        <span class="accordion-arrow">▾</span>
+      </button>
+      <div class="accordion-content" id="step15-content">
+        <div class="when-box">
+          <h4>⚡ こんな時に使う</h4>
+          <ul>
+            <li>モヤモヤして消化できない</li>
+            <li>メンタルが大きく上下した</li>
+            <li>ずっと解決しない問題がある</li>
+            <li>怒り・悲しみ・不安・焦りが強い</li>
+            <li>嬉しすぎて興奮している</li>
+          </ul>
+        </div>
+        <div class="step-flow">
+          <div class="flow-step">
+            <span class="flow-num">①</span>
+            <div class="flow-text">
+              <strong>感情を全部AIに吐き出す</strong>
+              <p>背景情報をちゃんと伝えること。なぜそう感じたか、何があったか、相手との関係性は——文脈を含めて話す。</p>
+              <div class="link-row">
+                <a href="https://chat.openai.com" target="_blank" class="tool-link chatgpt">💬 ChatGPT</a>
+                <a href="https://claude.ai" target="_blank" class="tool-link claude">🤖 Claude</a>
+                <a href="https://gemini.google.com" target="_blank" class="tool-link gemini">✨ Gemini</a>
+              </div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-num">②</span>
+            <div class="flow-text">
+              <strong>AIからフィードバックをもらう</strong>
+              <p>「これについてどう思う？」「自分では気づいていないパターンがあれば教えて」と聞く。</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-num">③</span>
+            <div class="flow-text">
+              <strong>「テンプレートを作って」とお願いする</strong>
+              <p>これが鍵。AIが今回の内容に最適化された振り返り用の質問リストを作ってくれる。</p>
+              <div class="prompt-block">
+                <div class="prompt-text" id="prompt-template">今回話したことをジャーナリングで整理したい。そのためのテンプレート（質問リスト）を作ってくれない？</div>
+                <button class="copy-btn" data-target="prompt-template">📋 コピー</button>
+              </div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-num">④</span>
+            <div class="flow-text">
+              <strong>テンプレートで音声入力 → Notionに保存</strong>
+              <p>AIが作った質問に1つずつ音声入力で答え、Notionに保存する。</p>
+              <div class="link-row">
+                <a href="https://www.notion.so/yui0403/78c6e2fe3393445795a7604156695f3a?v=3113f8375e4a807ea930000c38a1b40b&source=copy_link" target="_blank" class="tool-link notion">📝 Notion</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tip-box">
+          <p>毎日やる必要はない。感情が強く動いた時だけでOK。やればやるほど自分の感情の扱い方が上手くなる。</p>
+        </div>
+        <button class="action-btn complete full-width" id="btn-emotional-complete" onclick="completeEmotionalSession()">⚡ 壁打ち完了</button>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="accordion" id="step2">
+      <button class="accordion-header" data-target="step2-content">
+        <div class="accordion-title">
+          <span class="step-badge">Step 2</span>
+          <span class="step-name">週次AI振り返り</span>
+          <span class="step-time">30分</span>
+        </div>
+        <span class="accordion-arrow">▾</span>
+      </button>
+      <div class="accordion-content" id="step2-content">
+        <div class="step-flow">
+          <div class="flow-step">
+            <span class="flow-num">1</span>
+            <div class="flow-text">
+              <strong>Notionの1週間分のジャーナルをコピー</strong>
+              <p>Step 1.5の壁打ち結果も含める。</p>
+              <div class="link-row">
+                <a href="https://www.notion.so/yui0403/78c6e2fe3393445795a7604156695f3a?v=3113f8375e4a807ea930000c38a1b40b&source=copy_link" target="_blank" class="tool-link notion">📝 Notion</a>
+              </div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-num">2</span>
+            <div class="flow-text">
+              <strong>NotebookLMに「ソース」として追加</strong>
+              <p>「ソースを追加」→「テキストを貼り付け」。タイトルは「2026-W09（2/24〜3/2）」のように週番号+期間がおすすめ。</p>
+              <div class="link-row">
+                <a href="https://notebooklm.google.com/notebook/e39ed8d6-83e9-440f-adc9-6a40d1c68d71" target="_blank" class="tool-link notebooklm">🔍 NotebookLM</a>
+              </div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-num">3</span>
+            <div class="flow-text">
+              <strong>プロンプトを送ってAIと壁打ち</strong>
+              <p>下の3種から状況に合ったものを選んでコピー&ペースト。</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-num">4</span>
+            <div class="flow-text">
+              <strong>一番刺さった気づきを1つだけNotionにメモ</strong>
+              <p>全部保存しようとしない。一番心が動いたものだけ残す。</p>
+            </div>
+          </div>
+        </div>
+        <h4 class="prompt-section-title">📝 プロンプト集</h4>
+        <div class="prompt-card">
+          <div class="prompt-card-header">
+            <span class="prompt-card-badge">基本</span>
+            <span class="prompt-card-name">週次内省プロンプト</span>
+          </div>
+          <div class="prompt-card-desc">毎週使う基本プロンプト</div>
+          <div class="prompt-block">
+            <div class="prompt-text" id="prompt-weekly">以下の視点から、今週のジャーナルを分析してフィードバックをください。
+
+## 1. 浮かび上がるテーマ
+今週のジャーナル全体から見えてくる中心的なテーマを2〜3個抽出してください。
+それぞれのテーマがどう関連しているか、背景にある構造も示してください。
+
+## 2. 感情の地図
+今週、どんな感情が出ていましたか？ 分類してください。
+特に繰り返し出ている感情があれば、その奥にある「守りたい何か」「大事にしている価値観」は何だと思いますか？
+
+## 3. 過去との接続
+今週書いたことの中で、過去のジャーナルにも似たパターンがあったものはありますか？ あれば具体的に指摘してください。
+
+## 4. 気づきのヒント
+僕が自分では気づいていなさそうな視点、矛盾、無意識のパターンがあれば教えてください。断定せず「〜かもしれません」という表現でお願いします。
+
+## 5. 問いかけ
+今週の内容を踏まえて、より深く考えるための問いを2〜3個ください。「はい/いいえ」で終わらない、思考が開く問いをお願いします。</div>
+            <button class="copy-btn" data-target="prompt-weekly">📋 コピー</button>
+          </div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-card-header">
+            <span class="prompt-card-badge anger">怒り</span>
+            <span class="prompt-card-name">怒りの深掘りプロンプト</span>
+          </div>
+          <div class="prompt-card-desc">怒りを記録した週に基本プロンプトに加えて使う</div>
+          <div class="prompt-block">
+            <div class="prompt-text" id="prompt-anger">今週のジャーナルに怒りの記録があります。
+この怒りについて、以下の視点で深掘りしてください。
+
+1. この怒りの対象は「人」「状況」「行為」「態度」のどれ？
+2. 怒りの奥にある「こうあるべき」という信念は何？
+3. その信念が形成されたきっかけとして考えられることは？
+4. 同じ状況で怒らない人がいるとしたら、その人とあなたの違いは何？
+5. この怒りが示している「自分が本当に大事にしているもの」は何？
+6. 過去のジャーナルに、同じ構造の怒りはありますか？
+
+怒りのトリガーの共通点を見つけることで、僕自身の美学や価値軸の核心が見えてくるはずです。</div>
+            <button class="copy-btn" data-target="prompt-anger">📋 コピー</button>
+          </div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-card-header">
+            <span class="prompt-card-badge compassion">回復</span>
+            <span class="prompt-card-name">セルフ・コンパッションプロンプト</span>
+          </div>
+          <div class="prompt-card-desc">自分を責めすぎている時、疲弊している時に使う</div>
+          <div class="prompt-block">
+            <div class="prompt-text" id="prompt-compassion">今週のジャーナルを読んで、以下の視点からフィードバックをください。
+
+1. 【自己への優しさ】
+   もし親友が全く同じ状況にいたら、僕はその人に何と声をかけるだろう？
+   その言葉を、そのまま僕自身に向けてください。
+
+2. 【共通の人間性】
+   僕が今感じている苦しさは、僕だけの問題ではなく、
+   多くの人が通る道だとしたら、それはどういう構造か？
+
+3. 【ありのままの観察】
+   今の感情を、大きくも小さくもせず、ありのままに言語化してください。
+   判断せず、「今こういう状態にある」とだけ描写してください。
+
+4. 【問いかけ】
+   この苦しさの中に、何か大事なメッセージが隠れているとしたら、
+   それは何だと思いますか？</div>
+            <button class="copy-btn" data-target="prompt-compassion">📋 コピー</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="accordion" id="step3">
+      <button class="accordion-header" data-target="step3-content">
+        <div class="accordion-title">
+          <span class="step-badge">Step 3</span>
+          <span class="step-name">月次 信念抽出</span>
+          <span class="step-time">1時間</span>
+        </div>
+        <span class="accordion-arrow">▾</span>
+      </button>
+      <div class="accordion-content" id="step3-content">
+        <div class="step-flow">
+          <div class="flow-step">
+            <span class="flow-num">1</span>
+            <div class="flow-text">
+              <strong>NotebookLMを開く</strong>
+              <p>これまでの全ソースが入ったノートブックを使う。</p>
+              <div class="link-row">
+                <a href="https://notebooklm.google.com/notebook/e39ed8d6-83e9-440f-adc9-6a40d1c68d71" target="_blank" class="tool-link notebooklm">🔍 NotebookLM</a>
+              </div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-num">2</span>
+            <div class="flow-text">
+              <strong>信念抽出プロンプトを送る</strong>
+            </div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-num">3</span>
+            <div class="flow-text">
+              <strong>響いた信念をNotionの「信念ストック」DBに保存</strong>
+              <p>全部保存する必要はない。「これは確かにそうだ」と感じたものだけ。</p>
+              <div class="link-row">
+                <a href="https://www.notion.so/yui0403/78c6e2fe3393445795a7604156695f3a?v=3113f8375e4a807ea930000c38a1b40b&source=copy_link" target="_blank" class="tool-link notion">📝 Notion</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h4 class="prompt-section-title">📝 プロンプト</h4>
+        <div class="prompt-card">
+          <div class="prompt-card-header">
+            <span class="prompt-card-badge extract">抽出</span>
+            <span class="prompt-card-name">信念抽出プロンプト</span>
+          </div>
+          <div class="prompt-card-desc">月1回、NotebookLMで使う</div>
+          <div class="prompt-block">
+            <div class="prompt-text" id="prompt-belief">これまでの全てのジャーナルを横断して、以下を分析してください。
+
+## 1. 繰り返されるテーマ
+複数の週にわたって登場しているテーマ、感情、話題を挙げてください。
+表面的には違う話題でも、根っこが同じものがあれば指摘してください。
+
+## 2. 信念の候補
+上記のテーマから、以下の形で言語化できるものを5つ挙げてください。
+- 「〜は大事だ」
+- 「〜だと信じている」
+- 「〜が自分の譲れないラインだ」
+それぞれ、根拠となるジャーナルの記述を具体的に引用してください。
+
+## 3. ストーリーの候補
+具体的な日付・場所・人物が含まれるエピソードで、
+特に感情が強く動いたものを3つ挙げてください。
+それぞれ「このストーリーが伝えているメッセージ」を一文で書いてください。
+
+## 4. 先月からの変化
+先月と今月で、考え方や価値観に変化が見られる部分はありますか？
+何がきっかけで変わったのかも推察してください。
+
+## 5. まだ言語化されていない価値観
+ジャーナル全体から感じ取れるけど、本人が明確に言語化していない
+「大事にしていそうなもの」があれば教えてください。</div>
+            <button class="copy-btn" data-target="prompt-belief">📋 コピー</button>
+          </div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-card-header">
+            <span class="prompt-card-badge">保存</span>
+            <span class="prompt-card-name">信念ストック保存テンプレート</span>
+          </div>
+          <div class="prompt-card-desc">Notionの信念ストックDBに保存する時のフォーマット</div>
+          <div class="prompt-block">
+            <div class="prompt-text" id="prompt-belief-save">タイトル: （信念を一文で）
+例: 「怒りのトリガーに自分の美学の核心がある」
+
+裏付け:
+- こんな体験があった（具体的エピソード）
+- この感情を繰り返し感じた（パターン）
+
+使い道:
+- 発信のテーマにする / 創作の軸にする / 迷った時に読み返す</div>
+            <button class="copy-btn" data-target="prompt-belief-save">📋 コピー</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ===== Calendar ===== -->
+  <section class="calendar-section">
+    <div class="calendar-header">
+      <button class="cal-nav" id="cal-prev">◀</button>
+      <h3 id="cal-title"></h3>
+      <button class="cal-nav" id="cal-next">▶</button>
+    </div>
+    <div class="calendar-grid" id="calendar-grid"></div>
+    <div class="calendar-legend">
+      <span class="legend-item"><span class="legend-dot daily"></span>日次</span>
+      <span class="legend-item"><span class="legend-dot weekly"></span>週次</span>
+      <span class="legend-item"><span class="legend-dot monthly"></span>月次</span>
+    </div>
+  </section>
+
+  <!-- ===== Setup Guide ===== -->
+  <section class="steps">
+    <div class="accordion" id="setup-guide">
+      <button class="accordion-header" data-target="setup-content">
+        <div class="accordion-title">
+          <span class="step-badge setup">📖</span>
+          <span class="step-name">初回セットアップガイド</span>
+        </div>
+        <span class="accordion-arrow">▾</span>
+      </button>
+      <div class="accordion-content" id="setup-content">
+        <div class="setup-section">
+          <h4>📝 Notion のセットアップ</h4>
+          <div class="setup-block">
+            <h5>1. ジャーナルデータベースを作る</h5>
+            <ol>
+              <li>Notionで新しいページを作成</li>
+              <li>「データベース - フルページ」を選択</li>
+              <li>名前を「ジャーナル」にする</li>
+              <li>プロパティ「日付」（種類: 日付）を1つ追加</li>
+              <li>ビューを「カレンダー」に変更すると積み上がりが一目で見える</li>
+            </ol>
+          </div>
+          <div class="setup-block">
+            <h5>2. 信念ストックデータベースを作る</h5>
+            <ol>
+              <li>別のページで「信念ストック」データベースを作成</li>
+              <li>プロパティを追加:
+                <ul>
+                  <li><strong>裏付け</strong>（テキスト）— どんな体験・感情が根拠か</li>
+                  <li><strong>使い道</strong>（テキスト）— 発信、創作、仕事…何に使えそうか</li>
+                  <li><strong>抽出日</strong>（日付）— いつ発見したか</li>
+                </ul>
+              </li>
+            </ol>
+          </div>
+          <div class="setup-block">
+            <h5>3. テンプレートを設定する</h5>
+            <ol>
+              <li>ジャーナルDBで「新規テンプレート」を作成</li>
+              <li>中身はシンプルに「（ここに音声入力の内容を貼り付ける）」だけでOK</li>
+              <li>毎日「+新規」→ テンプレート選択 → 貼り付け</li>
+            </ol>
+          </div>
+        </div>
+        <div class="setup-section">
+          <h4>🔍 NotebookLM のセットアップ</h4>
+          <div class="setup-block">
+            <ol>
+              <li><a href="https://notebooklm.google.com/notebook/e39ed8d6-83e9-440f-adc9-6a40d1c68d71" target="_blank">NotebookLM</a> にアクセス</li>
+              <li>Googleアカウントでログイン</li>
+              <li>「新しいノートブック」→ 名前を「ジャーナル振り返り」にする</li>
+              <li>毎週、Notionのジャーナルをコピーして「テキストを貼り付け」で追加</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Onboarding Modal ===== -->
+  <div class="modal-overlay" id="onboarding-overlay">
+    <div class="modal">
+      <div class="modal-page" id="onboarding-page-0">
+        <div class="modal-icon">✍️</div>
+        <h2>ポンポン式ジャーナリングへようこそ</h2>
+        <p>感情を吐き出し、AIと振り返り、信念として蓄積する。<br>3ステップで「自分の軸」を作るツールです。</p>
+        <div class="modal-flow-overview">
+          <span>毎日5分 喋る</span>
+          <span class="modal-arrow">→</span>
+          <span>週1回 振り返る</span>
+          <span class="modal-arrow">→</span>
+          <span>月1回 信念を抽出</span>
+        </div>
+        <button class="modal-btn" onclick="nextOnboardingPage()">次へ</button>
+      </div>
+      <div class="modal-page hidden" id="onboarding-page-1">
+        <div class="modal-icon">🛠️</div>
+        <h2>ツールの役割</h2>
+        <div class="modal-tool-list">
+          <div class="modal-tool"><span class="modal-tool-icon">💬</span><div><strong>ChatGPT / Claude</strong><p>音声入力で喋る相手 & 壁打ち</p></div></div>
+          <div class="modal-tool"><span class="modal-tool-icon">📝</span><div><strong>Notion</strong><p>ジャーナルと信念を蓄積する場所</p></div></div>
+          <div class="modal-tool"><span class="modal-tool-icon">🔍</span><div><strong>NotebookLM</strong><p>蓄積したジャーナルをAIと振り返る</p></div></div>
+        </div>
+        <button class="modal-btn" onclick="nextOnboardingPage()">次へ</button>
+      </div>
+      <div class="modal-page hidden" id="onboarding-page-2">
+        <div class="modal-icon">🚀</div>
+        <h2>今日やることは1つだけ</h2>
+        <p class="modal-big-text">ChatGPT/Claudeに<br>今日感じたことを喋って<br>Notionに保存する</p>
+        <p>全部理解してから始める必要はない。<br>まずは今日、喋ってみよう。</p>
+        <button class="modal-btn primary" onclick="completeOnboarding()">始める</button>
+      </div>
+      <div class="modal-dots">
+        <span class="dot active" id="dot-0"></span>
+        <span class="dot" id="dot-1"></span>
+        <span class="dot" id="dot-2"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Calendar Popup (Bottom Sheet) ===== -->
+  <div class="cal-popup-overlay hidden" id="cal-popup-overlay">
+    <div class="cal-popup" id="cal-popup">
+      <div class="cal-popup-header">
+        <span class="cal-popup-date" id="cal-popup-date"></span>
+        <button class="cal-popup-close" onclick="closeCalPopup()">✕</button>
+      </div>
+      <div class="cal-popup-items" id="cal-popup-items"></div>
+    </div>
+  </div>
+
+  <!-- ===== Celebration Toast ===== -->
+  <div class="toast-overlay" id="toast-overlay">
+    <div class="toast">
+      <div class="toast-message">おめでとう🧸🎉<br>人生の資産を積み上げられたね！</div>
+    </div>
+  </div>
+
+  <div class="bottom-spacer"></div>
+
+  <!-- ===== Bottom Navigation ===== -->
+  <nav class="bottom-nav">
+    <a href="https://chatgpt.com/g/g-p-699de305b37c8191aa8b27ebae2ef3dc-siyanarinkuyong/project" target="_blank" class="nav-item">
+      <span class="nav-icon">💬</span>
+      <span class="nav-label">ChatGPT</span>
+    </a>
+    <a href="https://claude.ai" target="_blank" class="nav-item">
+      <span class="nav-icon">🤖</span>
+      <span class="nav-label">Claude</span>
+    </a>
+    <a href="https://www.notion.so/yui0403/78c6e2fe3393445795a7604156695f3a?v=3113f8375e4a807ea930000c38a1b40b&source=copy_link" target="_blank" class="nav-item">
+      <span class="nav-icon">📝</span>
+      <span class="nav-label">Notion</span>
+    </a>
+    <a href="https://notebooklm.google.com/notebook/e39ed8d6-83e9-440f-adc9-6a40d1c68d71" target="_blank" class="nav-item">
+      <span class="nav-icon">🔍</span>
+      <span class="nav-label">NLM</span>
+    </a>
+    <a href="https://gemini.google.com" target="_blank" class="nav-item">
+      <span class="nav-icon">✨</span>
+      <span class="nav-label">Gemini</span>
+    </a>
+  </nav>
+
+  <script src="app.js"></script>
+</body>
+</html>
